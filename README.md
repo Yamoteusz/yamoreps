@@ -154,7 +154,7 @@ src/
 Wspiera linki: Taobao, Tmall, Weidian, 1688, oraz wrapped agent links
 (`?id=...&shop_type=...` lub `?url=encoded`).
 
-Generuje URL-e dla 12 agentów. **Mulebuy** zawsze z afiliacją `200103195`.
+Generuje URL-e dla 12 agentów. **Mulebuy** zawsze z afiliacją `200054759`.
 
 ## Limity Cloudflare Free
 

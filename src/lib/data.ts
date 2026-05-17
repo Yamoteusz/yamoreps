@@ -17,7 +17,7 @@ export const AGENTS: Agent[] = [
     name: 'Mulebuy',
     logo: '🐴',
     color: 'from-violet-500 to-fuchsia-500',
-    href: 'https://mulebuy.com/?ref=200103195',
+    href: 'https://mulebuy.com/?ref=200054759',
     featured: true,
     description: 'Najnowszy i najszybciej rosnący agent. Rekomendowany przez społeczność.',
   },
