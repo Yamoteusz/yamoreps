@@ -21,7 +21,7 @@ const PLATFORM_HOSTS: Record<Platform, string[]> = {
 };
 
 /** Mulebuy ref code (your affiliate). */
-export const MULEBUY_REF = '200103195';
+export const MULEBUY_REF = '200054759';
 
 /** Returns `null` if the URL can't be parsed. */
 export function parseLink(input: string): ParsedLink | null {
