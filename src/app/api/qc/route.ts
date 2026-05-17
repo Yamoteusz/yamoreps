@@ -34,7 +34,13 @@ export async function POST(req: NextRequest) {
   const fallbackSources = [
     {
       name: 'Mulebuy QC',
-      url: `https://mulebuy.com/product?id=${parsed.id}&platform=${parsed.platform === 'taobao' ? 'TAOBAO' : parsed.platform === 'weidian' ? 'WEIDIAN' : parsed.platform === '1688' ? 'ALI_1688' : 'TMALL'}&ref=${MULEBUY_REF}#qc`,
+      url: `https://mulebuy.com/search?keyword=${encodeURIComponent(
+        parsed.platform === 'taobao'
+          ? `https://item.taobao.com/item.htm?id=${parsed.id}`
+          : parsed.platform === 'weidian'
+            ? `https://weidian.com/item.html?itemID=${parsed.id}`
+            : `https://detail.1688.com/offer/${parsed.id}.html`
+      )}&ref=${MULEBUY_REF}`,
       featured: true,
     },
     {
