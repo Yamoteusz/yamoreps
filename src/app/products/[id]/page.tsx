@@ -7,17 +7,19 @@ import {
   ArrowLeft,
   ImageIcon,
   ExternalLink,
-  Sparkles,
 } from 'lucide-react';
 import { getProduct } from '@/lib/products';
-import { buildAll, parseLink, platformLabel } from '@/lib/converter';
-import { AGENTS } from '@/lib/data';
+import { parseLink, platformLabel, MULEBUY_REF, rebuildCn } from '@/lib/converter';
 import { cn } from '@/lib/utils';
 import ProductQCGallery from './ProductQCGallery';
 import type { Metadata } from 'next';
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
+
+function platformIndex(platform: string): number {
+  return platform === 'taobao' ? 1 : platform === 'weidian' ? 2 : platform === '1688' ? 3 : 1;
+}
 
 export async function generateMetadata({
   params,
@@ -48,7 +50,11 @@ export default async function ProductPage({
   if (!product) notFound();
 
   const parsed = parseLink(product.sourceUrl);
-  const agentLinks = parsed ? buildAll(parsed) : [];
+
+  // Build Mulebuy link in the same format as USFans/Vector: /product/PLATFORM/ID?ref=CODE
+  const mulebuyLink = parsed
+    ? `https://mulebuy.com/product/${platformIndex(parsed.platform)}/${parsed.id}?ref=${MULEBUY_REF}`
+    : `https://mulebuy.com/?ref=${MULEBUY_REF}`;
 
   return (
     <section className="pt-32 pb-20">
@@ -121,69 +127,25 @@ export default async function ProductPage({
               <span className="text-muted text-sm">~ cena u sprzedawcy</span>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            {/* Main CTA - Buy through Mulebuy (like Vector's "Kup przez USFans") */}
+            <div className="mt-10 flex flex-col sm:flex-row gap-3">
+              <a
+                href={mulebuyLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:opacity-90 transition-opacity glow-primary"
+              >
+                <ExternalLink className="w-5 h-5" />
+                Kup przez Mulebuy
+              </a>
               <Link
                 href={`/qc?prefill=${encodeURIComponent(product.sourceUrl)}`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] text-sm font-medium transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] transition-colors"
               >
-                <ImageIcon className="w-4 h-4" />
+                <ImageIcon className="w-5 h-5" />
                 Sprawdź QC
               </Link>
-              <Link
-                href={`/link-converter?prefill=${encodeURIComponent(product.sourceUrl)}`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] text-sm font-medium transition-colors"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Konwerter
-              </Link>
             </div>
-
-            {agentLinks.length > 0 && (
-              <div className="mt-10">
-                <h3 className="font-display font-semibold text-xl mb-4">
-                  Kup u agenta
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {agentLinks.map((al) => {
-                    const agent = AGENTS.find(
-                      (a) => a.name.toLowerCase() === al.key
-                    );
-                    const isMulebuy = al.key === 'mulebuy';
-                    return (
-                      <a
-                        key={al.key}
-                        href={al.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                          'group flex items-center gap-3 p-3 rounded-xl border transition-all hover:-translate-y-0.5',
-                          isMulebuy
-                            ? 'bg-gradient-to-br from-violet-500/10 to-fuchsia-500/5 border-violet-500/40'
-                            : 'bg-card border-white/[0.06] hover:border-white/[0.15]'
-                        )}
-                      >
-                        <div
-                          className={`w-10 h-10 rounded-xl bg-gradient-to-br ${agent?.color ?? 'from-primary to-accent'} flex items-center justify-center text-lg shrink-0`}
-                        >
-                          {agent?.logo ?? '🛒'}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-sm">
-                              {al.name}
-                            </span>
-                            {isMulebuy && (
-                              <Sparkles className="w-3 h-3 text-fuchsia-300" />
-                            )}
-                          </div>
-                        </div>
-                        <ExternalLink className="w-4 h-4 text-muted group-hover:text-primary-300 transition-colors" />
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
