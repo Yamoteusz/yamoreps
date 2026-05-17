@@ -159,33 +159,25 @@ export const AGENT_BUILDERS: AgentBuilder[] = [
     key: 'mulebuy',
     name: 'Mulebuy',
     build: (p) =>
-      `https://mulebuy.com/search?keyword=${encodeURIComponent(rebuildCn(p))}&ref=${MULEBUY_REF}`,
+      `https://mulebuy.com/product/${platformIndex(p.platform)}/${p.id}?ref=${MULEBUY_REF}`,
   },
   {
     key: 'kakobuy',
     name: 'Kakobuy',
     build: (p) =>
-      `https://www.kakobuy.com/item/details?url=${encodeURIComponent(
-        rebuildCn(p)
-      )}`,
+      `https://www.kakobuy.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'sugargoo',
     name: 'Sugargoo',
     build: (p) =>
-      `https://www.sugargoo.com/index/item/index.html?tp=${lc(
-        p
-      )}&searchlang=en&url=${encodeURIComponent(rebuildCn(p))}`,
+      `https://www.sugargoo.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'cssbuy',
     name: 'CSSBuy',
     build: (p) =>
-      p.platform === 'taobao' || p.platform === 'tmall'
-        ? `https://www.cssbuy.com/item-${p.id}.html`
-        : p.platform === 'weidian'
-          ? `https://www.cssbuy.com/item-micro-${p.id}.html`
-          : `https://www.cssbuy.com/item-1688-${p.id}.html`,
+      `https://www.cssbuy.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'hoobuy',
@@ -197,21 +189,19 @@ export const AGENT_BUILDERS: AgentBuilder[] = [
     key: 'cnfans',
     name: 'CNFans',
     build: (p) =>
-      `https://cnfans.com/product?shop_type=${lc(p)}&id=${p.id}`,
+      `https://cnfans.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'allchinabuy',
     name: 'Allchinabuy',
     build: (p) =>
-      `https://www.allchinabuy.com/en/page/buy?from=search-input&url=${encodeURIComponent(
-        rebuildCn(p)
-      )}`,
+      `https://www.allchinabuy.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'joyabuy',
     name: 'Joyabuy',
     build: (p) =>
-      `https://joyabuy.com/product?shop_type=${lc(p)}&id=${p.id}`,
+      `https://joyabuy.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'oopbuy',
@@ -223,19 +213,19 @@ export const AGENT_BUILDERS: AgentBuilder[] = [
     key: 'usfans',
     name: 'USFans',
     build: (p) =>
-      `https://www.usfans.com/goods/index?shop_type=${lc(p)}&id=${p.id}&ref=4HB2FV`,
+      `https://www.usfans.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'acbuy',
     name: 'ACBuy',
     build: (p) =>
-      `https://www.acbuy.com/product?id=${p.id}&source=${lc(p)}`,
+      `https://www.acbuy.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
   {
     key: 'litbuy',
     name: 'LitBuy',
     build: (p) =>
-      `https://www.litbuy.com/goods?shop_type=${lc(p)}&id=${p.id}`,
+      `https://www.litbuy.com/product/${platformIndex(p.platform)}/${p.id}`,
   },
 ];
 
