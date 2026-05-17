@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   const fallbackSources = [
     {
       name: 'Mulebuy',
-      url: `https://mulebuy.com/product/${parsed.platform === 'taobao' ? 1 : parsed.platform === 'weidian' ? 2 : 3}/${parsed.id}?ref=${MULEBUY_REF}`,
+      url: `https://mulebuy.com/product?id=${parsed.id}&platform=${parsed.platform === 'taobao' ? '1' : parsed.platform === 'weidian' ? '2' : '3'}&ref=${MULEBUY_REF}`,
       featured: true,
     },
     {

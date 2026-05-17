@@ -154,12 +154,19 @@ const PLATFORM_PARAM: Record<Platform, string> = {
 
 const lc = (p: ParsedLink) => PLATFORM_PARAM[p.platform].toLowerCase();
 
+const MULEBUY_PLATFORM: Record<Platform, string> = {
+  taobao: '1',
+  weidian: '2',
+  '1688': '3',
+  tmall: '1',
+};
+
 export const AGENT_BUILDERS: AgentBuilder[] = [
   {
     key: 'mulebuy',
     name: 'Mulebuy',
     build: (p) =>
-      `https://mulebuy.com/product/${platformIndex(p.platform)}/${p.id}?ref=${MULEBUY_REF}`,
+      `https://mulebuy.com/product?id=${p.id}&platform=${MULEBUY_PLATFORM[p.platform]}&ref=${MULEBUY_REF}`,
   },
   {
     key: 'kakobuy',
