@@ -159,7 +159,7 @@ export const AGENT_BUILDERS: AgentBuilder[] = [
     key: 'mulebuy',
     name: 'Mulebuy',
     build: (p) =>
-      `https://mulebuy.com/product/?shop_type=${lc(p)}&id=${p.id}&ref=${MULEBUY_REF}`,
+      `https://mulebuy.com/product?id=${p.id}&platform=${PLATFORM_PARAM[p.platform]}&ref=${MULEBUY_REF}`,
   },
   {
     key: 'kakobuy',

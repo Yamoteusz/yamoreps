@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    // Cloudflare Pages doesn't run Next's built-in image optimizer; serve
+    // images directly from their origin to avoid 502s and slow first paint.
+    unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
       { protocol: 'https', hostname: 'cdn.discordapp.com' },
