@@ -58,6 +58,29 @@ export function parseLink(input: string): ParsedLink | null {
     if (recursed) return { ...recursed, raw: input };
   }
 
+  // 2.5) Agent link in /product/PLATFORM_INDEX/ID format (Kakobuy, Oopbuy, USFans, etc.)
+  const productPathMatch = url.pathname.match(/\/product\/(\d+)\/(\d+)/);
+  if (productPathMatch) {
+    const platformIdx = productPathMatch[1];
+    const itemId = productPathMatch[2];
+    const platform: Platform =
+      platformIdx === '2' ? 'weidian' : platformIdx === '3' ? '1688' : 'taobao';
+    return { platform, id: itemId, raw: input };
+  }
+
+  // 2.6) Mulebuy format: /product?id=ID&platform=TAOBAO|WEIDIAN|ALI_1688
+  if (url.pathname === '/product' || url.pathname === '/product/') {
+    const qId = url.searchParams.get('id');
+    const qPlatform = (url.searchParams.get('platform') || '').toUpperCase();
+    if (qId && /^\d+$/.test(qId)) {
+      const platform: Platform =
+        qPlatform === 'WEIDIAN' ? 'weidian' :
+        qPlatform === 'ALI_1688' || qPlatform === '1688' ? '1688' :
+        qPlatform === 'TMALL' ? 'tmall' : 'taobao';
+      return { platform, id: qId, raw: input };
+    }
+  }
+
   // 3) Heuristic: agents often expose `?id=...&shop_type=taobao|weidian|1688`.
   const id =
     url.searchParams.get('id') ||
