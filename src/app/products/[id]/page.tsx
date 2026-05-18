@@ -21,6 +21,10 @@ function platformIndex(platform: string): number {
   return platform === 'taobao' ? 1 : platform === 'weidian' ? 2 : platform === '1688' ? 3 : 1;
 }
 
+function mulebuyPlatform(platform: string): string {
+  return platform === 'taobao' ? 'TAOBAO' : platform === 'weidian' ? 'WEIDIAN' : platform === '1688' ? 'ALI_1688' : 'TAOBAO';
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -51,9 +55,8 @@ export default async function ProductPage({
 
   const parsed = parseLink(product.sourceUrl);
 
-  // Build Mulebuy link in the same format as USFans/Vector: /product/PLATFORM/ID?ref=CODE
   const mulebuyLink = parsed
-    ? `https://mulebuy.com/product/${platformIndex(parsed.platform)}/${parsed.id}?ref=${MULEBUY_REF}`
+    ? `https://mulebuy.com/product?id=${parsed.id}&platform=${mulebuyPlatform(parsed.platform)}&ref=${MULEBUY_REF}`
     : `https://mulebuy.com/?ref=${MULEBUY_REF}`;
 
   return (

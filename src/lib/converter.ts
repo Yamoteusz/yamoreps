@@ -155,10 +155,10 @@ const PLATFORM_PARAM: Record<Platform, string> = {
 const lc = (p: ParsedLink) => PLATFORM_PARAM[p.platform].toLowerCase();
 
 const MULEBUY_PLATFORM: Record<Platform, string> = {
-  taobao: '1',
-  weidian: '2',
-  '1688': '3',
-  tmall: '1',
+  taobao: 'TAOBAO',
+  weidian: 'WEIDIAN',
+  '1688': 'ALI_1688',
+  tmall: 'TAOBAO',
 };
 
 export const AGENT_BUILDERS: AgentBuilder[] = [
